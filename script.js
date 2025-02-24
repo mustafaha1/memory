@@ -130,7 +130,9 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(() => console.log('Shared successfully'))
         .catch((error) => {
           console.error('Sharing failed', error);
-          alert('Sharing failed. Please try again.'); // Fallback for sharing errors
+          // Fallback for sharing errors
+          const shareContent = taskImage ? `${taskText}\n\nImage: ${taskImage}` : taskText;
+          alert(`Sharing failed. Here's your task:\n\n${shareContent}`);
         });
     } else {
       // Fallback for browsers that don't support the Web Share API
