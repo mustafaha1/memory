@@ -111,12 +111,18 @@ document.addEventListener('DOMContentLoaded', function () {
   function shareTask(button) {
     const li = button.parentElement;
     const taskText = li.querySelector('span').textContent;
+    const taskImage = li.querySelector('img')?.src;
   
     // Prepare share data
     const shareData = {
       title: 'Task', // Required field
       text: taskText, // Task description
     };
+  
+    // If an image exists, include it as a base64 URL
+    if (taskImage) {
+      shareData.url = taskImage; // Add the image URL to the share data
+    }
   
     // Check if the Web Share API is supported
     if (navigator.share) {
@@ -128,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } else {
       // Fallback for browsers that don't support the Web Share API
-      alert(`Sharing not supported in this browser. Here's your task:\n\n${taskText}`);
+      const shareContent = taskImage ? `${taskText}\n\nImage: ${taskImage}` : taskText;
+      alert(`Sharing not supported in this browser. Here's your task:\n\n${shareContent}`);
     }
   }
