@@ -11,8 +11,9 @@
     <h1>Task Manager</h1>
     <form id="taskForm">
       <input type="text" id="taskInput" placeholder="Add a new task" required>
-      <input type="datetime-local" id="taskDateTime"> <!-- Removed required -->
-      <input type="file" id="taskImage" accept="image/*">
+      <label for="taskDateTime">Due Date:</label>
+      <input type="datetime-local" id="taskDateTime"> <!-- Due date (optional) -->
+      <input type="file" id="taskImage" accept="image/*"> <!-- Image upload -->
       <button type="submit">Add Task</button>
     </form>
     <ul id="taskList"></ul>
