@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     loadTasks();
+    requestNotificationPermission(); // Request notification permission
   });
   
   // Save tasks to localStorage
@@ -77,6 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
   
     // Clear the form
     document.getElementById('taskForm').reset();
+  
+    // Check for due tasks
+    checkDueTasks();
   });
   
   // Delete task
@@ -90,10 +94,14 @@ document.addEventListener('DOMContentLoaded', function () {
   function editTask(button) {
     const li = button.parentElement;
     const taskText = li.querySelector('span').textContent.split(' (Due:')[0];
+    const taskDateTime = li.querySelector('span').textContent.match(/Due: (.+)\)/)?.[1];
+  
+    // Prompt for new task text
     const newText = prompt('Edit your task:', taskText);
     if (newText) {
-      const taskDateTime = document.getElementById('taskDateTime').value;
-      const dueDate = taskDateTime ? ` (Due: ${new Date(taskDateTime).toLocaleString()})` : '';
+      // Prompt for new due date
+      const newDateTime = prompt('Edit the due date and time (YYYY-MM-DDTHH:MM):', taskDateTime);
+      const dueDate = newDateTime ? ` (Due: ${new Date(newDateTime).toLocaleString()})` : '';
       li.querySelector('span').textContent = `${newText}${dueDate}`;
       saveTasks(); // Save tasks after editing
     }
@@ -140,3 +148,48 @@ document.addEventListener('DOMContentLoaded', function () {
       alert(`Sharing not supported in this browser. Here's your task:\n\n${shareContent}`);
     }
   }
+  
+  // Request notification permission
+  function requestNotificationPermission() {
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+  }
+  
+  // Show notification
+  function showNotification(taskText) {
+    if (Notification.permission === 'granted') {
+      new Notification('Task Due Soon', {
+        body: `Task: ${taskText} is due soon!`,
+        icon: 'icon.png', // Add an icon if needed
+      });
+    }
+  }
+  
+  // Check for due tasks and trigger notifications/alarms
+  function checkDueTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(task => {
+      const dueDate = task.text.match(/Due: (.+)\)/)?.[1];
+      if (dueDate) {
+        const dueTime = new Date(dueDate).getTime();
+        const now = new Date().getTime();
+        const timeDifference = dueTime - now;
+  
+        // Notify if the task is due within 1 hour
+        if (timeDifference > 0 && timeDifference <= 3600000) { // 1 hour = 3600000 ms
+          showNotification(task.text);
+        }
+  
+        // Set an alarm for the due time
+        if (timeDifference > 0) {
+          setTimeout(() => {
+            showNotification(task.text);
+          }, timeDifference);
+        }
+      }
+    });
+  }
+  
+  // Check for due tasks every minute
+  setInterval(checkDueTasks, 60000); // 60000 ms = 1 minute
