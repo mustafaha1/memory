@@ -77,3 +77,13 @@ body {
     text-decoration: line-through; /* Strikethrough for completed tasks */
     opacity: 0.7; /* Fade completed tasks */
   }
+
+  /* Amber background for tasks due within 24 hours */
+li.amber {
+  background: #ffc107; /* Amber color */
+}
+
+/* Red background for tasks due within 3 hours */
+li.red {
+  background: #dc3545; /* Red color */
+}
