@@ -2,21 +2,21 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #b7b1f2; /* New background color */
+    background: #b7b1f2;
   }
   
   .container {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* Rounded corners */
+    border-radius: 8px;
   }
   
   h1 {
     text-align: center;
-    color: #333; /* Dark text for contrast */
+    color: #333;
   }
   
   form {
@@ -34,20 +34,20 @@ body {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 4px; /* Rounded corners */
+    border-radius: 4px;
   }
   
   button {
-    background: transparent; /* Transparent background */
-    color: #28a745; /* Green text */
-    border: 1px solid #28a745; /* Green border */
+    background: transparent;
+    color: #28a745;
+    border: 1px solid #28a745;
     cursor: pointer;
-    transition: background 0.3s, color 0.3s; /* Smooth transition */
+    transition: all 0.3s;
   }
   
   button:hover {
-    background: #28a745; /* Green background on hover */
-    color: #fff; /* White text on hover */
+    background: #28a745;
+    color: #fff;
   }
   
   ul {
@@ -56,34 +56,45 @@ body {
   }
   
   li {
-    background: rgba(249, 249, 249, 0.9); /* Semi-transparent background */
+    background: rgba(249, 249, 249, 0.9);
     margin: 10px 0;
     padding: 10px;
     border: 1px solid #ddd;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 4px; /* Rounded corners */
+    border-radius: 4px;
+    transition: all 0.2s;
   }
   
   li img {
-    max-width: 50px; /* Shrink images to 50px */
+    max-width: 50px;
     max-height: 50px;
     margin-left: 10px;
-    border-radius: 4px; /* Rounded corners for images */
+    border-radius: 4px;
   }
   
   .completed {
-    text-decoration: line-through; /* Strikethrough for completed tasks */
-    opacity: 0.7; /* Fade completed tasks */
+    text-decoration: line-through;
+    opacity: 0.7;
   }
-
-  /* Amber background for tasks due within 24 hours */
-li.amber {
-  background: #ffc107; /* Amber color */
-}
-
-/* Red background for tasks due within 3 hours */
-li.red {
-  background: #dc3545; /* Red color */
-}
+  
+  li.amber {
+    background: #ffc107;
+  }
+  
+  li.red {
+    background: #dc3545;
+    order: -1; /* Move to top */
+  }
+  
+  li.deleting {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.2s ease-out;
+  }
+  
+  .task-actions {
+    display: flex;
+    gap: 5px;
+  }
